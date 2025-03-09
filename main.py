@@ -1,5 +1,7 @@
 import time
 from turtle import Screen
+with open("high_score.txt") as high_score:
+   current_high_score = high_score.read()
 
 from food import Food
 from scoreboard import Scoreboard
@@ -12,7 +14,6 @@ screen.title("My Snake Game")
 screen.tracer(0)
 
 game_is_on=True
-
 snake = Snake()
 food = Food()
 scoreboard = Scoreboard()
@@ -22,6 +23,13 @@ screen.onkey(snake.down, "Down")
 screen.onkey(snake.left, "Left")
 screen.onkey(snake.right, "Right")
 
+
+def end_game():
+    global game_is_on
+    game_is_on = False
+    scoreboard.end_game()
+
+screen.onkey(end_game, "e")
 
 while game_is_on:
     screen.update()
@@ -38,7 +46,6 @@ while game_is_on:
         snake.reset()
     #Detect collision with tail
     #if head collides with any segment in the tail:
-        #trigger game_over
     for segment in snake.segments[1:]:
         if snake.head.distance(segment) <10:
             scoreboard.reset()
